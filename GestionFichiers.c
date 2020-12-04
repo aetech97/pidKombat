@@ -22,10 +22,10 @@ int GetPIDnPPIDfromFile(int *PID, int *PPID, char *FileName) // filename ="FOLDE
     if (Fichier>0)
     {
         nb=read(Fichier, &Buf, sizeof(int));
-        printf("Buf1=%d\n", Buf);
+        //printf("Buf1=%d\n", Buf);
         *PID=Buf;
         nb+=read(Fichier, &Buf, sizeof(int));
-        printf("Buf2=%d\n", Buf);
+        //printf("Buf2=%d\n", Buf);
         *PPID=Buf;
     }
     else
@@ -56,9 +56,17 @@ int main(void)
     {
         while(Case == GenNombre(9999));
         Case = GenNombre(9999);
-        AttaquerCase(MonPID, MonPPID, Case, SIGUSR1);
+        AttaquerCase(MonPPID, MonPID, Case, SIGUSR1);
     }
 }    
+
+int SendSIG2(pid_t PID, int Signal) //Envoi signal [SIG_QUIT, SIGUSR1, SIGUSR2] au PID avec kill()
+{
+    char *NomSignal;
+    if (Signal==3) NomSignal="SIGQUIT";
+    else NomSignal="SIGUSR1";
+    printf("J'envoie %s a %d\n",NomSignal,PID);
+}
 
 
 int AttaquerCase(int MonPID, int MonPPID, int CaseNumber, int Signal) //Signal = SIGUSR1 pour PERE1 et SIGUSR2 pour PERE2
@@ -71,6 +79,7 @@ int AttaquerCase(int MonPID, int MonPPID, int CaseNumber, int Signal) //Signal =
     //SetPIDnPPIDfromFile(MonPID,MonPPID, "0000");
     if (GetPIDnPPIDfromFile(&PID, &PPID, Case)==-1) 
     {
+        printf("Le PID %d occupe la case %s\n",MonPID, Case);
         RetVal=SetPIDnPPIDfromFile(MonPID, MonPPID, Case);
         if (RetVal!=2) return 1;
     }    
@@ -78,21 +87,18 @@ int AttaquerCase(int MonPID, int MonPPID, int CaseNumber, int Signal) //Signal =
     {
         if (PPID!=MonPPID)
         {
+            printf("Le PID %d vole la case %s au PID %d\n",MonPID, Case,PID);
             //kill adversaire (PID)
             SendSIG(PID, SIGQUIT); //Je tue le fils
             //Send SIGUSR1 PPID
-            SendSIG(PPID, SIGUSR1); //Je signale au pere que j'ai tué un fils
+            SendSIG2(PPID, SIGUSR1); //Je signale au pere que j'ai tué un fils
             //approprier fichier
             RetVal=SetPIDnPPIDfromFile(MonPID, MonPPID, Case); // J'écrit mon PID et mon PPID dans la case
             if (RetVal!=2) return 1;
         }
         else
-            printf("La case %s appartient deja au PPID %d", Case, MonPPID);
+            printf("La case %s appartient deja au PPID %d\n", Case, MonPPID);
     }
     return 0;
 }
 
-int SendSIG(pid_t PID, int Signal) //Envoi signal [SIG_QUIT, SIGUSR1, SIGUSR2] au PID avec kill()
-{
-    printf("J'envoie %d a %d\n",Signal,PID);
-}
