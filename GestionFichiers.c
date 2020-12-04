@@ -1,3 +1,9 @@
+/*
+Fichier GestionFichiers.c
+Auteur : Pierre LAGO
+Mois/Année : Décembre 2020
+*/
+
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>

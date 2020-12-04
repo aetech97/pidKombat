@@ -24,6 +24,7 @@ int main()
 
         sleep(3);   
         printf("fils[1] --> pid = %d and ppid = %d\n", getpid(), getppid());
+        printf("\n");
     } 
 
     // sinon fork du premier fils  
@@ -89,5 +90,6 @@ int main()
             }     
         } 
     }
+    wait(NULL);
     return 0; 
 } 
