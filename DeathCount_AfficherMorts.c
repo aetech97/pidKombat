@@ -2,7 +2,7 @@
 
 typedef struct
 {
-	char NOM[30];
+	char Nom[30];
     int PID_MERE; //Remplacer int part pid_t
     int PID_PERE; //Remplacer int part pid_t
     int PID_FILS[5]; //Remplacer int part pid_t
@@ -11,7 +11,7 @@ typedef struct
 
 int AfficherMorts(Equipe * team)
 {
-    printf("L eqipe %s a perdu un fils.\n", team->NOM);
+    printf("L eqipe %s a perdu un fils.\n", team->Nom);
 	return 0;
 }
 
@@ -25,8 +25,8 @@ int DeathCount(Equipe * team)
 int main(int argc, char** argv)
 {
     Equipe delta, bravo;
-    strcpy(delta.NOM , "Delta");
-    strcpy(bravo.NOM , "Bravo");
+    strcpy(delta.Nom , "Delta");
+    strcpy(bravo.Nom , "Bravo");
     delta.nbmorts = 0;
     bravo.nbmorts = 0;
     DeathCount(&delta);
