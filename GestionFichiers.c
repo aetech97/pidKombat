@@ -30,7 +30,7 @@ int GetPIDnPPIDfromFile(int *PID, int *PPID, char *FileName) // filename ="FOLDE
     }
     else
     {    
-        printf("Erreur ouverture %s : %d", FileName, Fichier);
+        //printf("Erreur ouverture %s : %d", FileName, Fichier);
         return Fichier;
     }
 }
@@ -51,9 +51,13 @@ int SetPIDnPPIDfromFile(int PID, int PPID, char *FileName)
 
 int main(void)
 {
-    int MonPID=1234, MonPPID=7890;
-    int PID=0, PPID=0;
-    AttaquerCase(MonPID, MonPPID, 1234, SIGUSR1); 
+    int Case, MonPID=getpid(), MonPPID=getppid();
+    for (int i=0; i<100; i++)
+    {
+        while(Case == GenNombre(9999));
+        Case = GenNombre(9999);
+        AttaquerCase(MonPID, MonPPID, Case, SIGUSR1);
+    }
 }    
 
 
@@ -72,13 +76,18 @@ int AttaquerCase(int MonPID, int MonPPID, int CaseNumber, int Signal) //Signal =
     }    
     else
     {
-        //kill adversaire (PID)
-        SendSIG(PID, SIGQUIT); //Je tue le fils
-        //Send SIGUSR1 PPID
-        SendSIG(PPID, SIGUSR1); //Je signale au pere que j'ai tué un fils
-        //approprier fichier
-        RetVal=SetPIDnPPIDfromFile(MonPID, MonPPID, Case); // J'écrit mon PID et mon PPID dans la case
-        if (RetVal!=2) return 1;
+        if (PPID!=MonPPID)
+        {
+            //kill adversaire (PID)
+            SendSIG(PID, SIGQUIT); //Je tue le fils
+            //Send SIGUSR1 PPID
+            SendSIG(PPID, SIGUSR1); //Je signale au pere que j'ai tué un fils
+            //approprier fichier
+            RetVal=SetPIDnPPIDfromFile(MonPID, MonPPID, Case); // J'écrit mon PID et mon PPID dans la case
+            if (RetVal!=2) return 1;
+        }
+        else
+            printf("La case %s appartient deja au PPID %d", Case, MonPPID);
     }
     return 0;
 }

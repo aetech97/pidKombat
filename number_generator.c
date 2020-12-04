@@ -11,10 +11,11 @@
 #include<time.h>
 #include<fcntl.h>
 #include<stdio.h>
+#include <sys/stat.h>
 
 #include"prototypes.h"
 
-#define UNITARY_TEST 1  // =>1 to launch main test  ;   =>0 to deactivate main code
+#define UNITARY_TEST 0  // =>1 to launch main test  ;   =>0 to deactivate main code
 
 //Team 1 Pipes
 const char *E1_PIPE_1= "pipe1";
@@ -89,8 +90,8 @@ void main()
 int GenNombre(int NbMax)
 {
     int number=0;
-    srand(time(NULL));
-    number = rand()%NbMax;
+    srandom(time(0));
+    number = random()%NbMax;
     return number;
 }
 
