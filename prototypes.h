@@ -8,10 +8,10 @@ int ReadNumber(int Pipe[2], int *Nombre);
 int DeathCount(Equipe Team); // a chaque appel, on incrémente le nb de morts de l'equipe désignée. A 5 morts, l'équipe a perdu
 int AfficherMorts(Equipe Team); 
 
-typedef struct Equipe
+typedef struct
 {
     pid_t PID_MERE;
     pid_t PID_PERE;
     pid_t PID_FILS[5];
     int nbmorts;
-}
+}Equipe;
