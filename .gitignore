@@ -1,1 +1,6 @@
-fork
+#ignore all
+*
+#unignore files with extension
+!*.*
+#unignore all dirs
+!*/

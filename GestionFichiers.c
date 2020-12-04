@@ -12,6 +12,7 @@ Mois/Année : Décembre 2020
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <sys/types.h>    
+#include "prototypes.h"
 
 int GetPIDnPPIDfromFile(int *PID, int *PPID, char *FileName) // filename ="FOLDER/0000"
 {
@@ -52,17 +53,37 @@ int main(void)
 {
     int MonPID=1234, MonPPID=7890;
     int PID=0, PPID=0;
+    AttaquerCase(MonPID, MonPPID, 1234, SIGUSR1); 
+}    
+
+
+int AttaquerCase(int MonPID, int MonPPID, int CaseNumber, int Signal) //Signal = SIGUSR1 pour PERE1 et SIGUSR2 pour PERE2
+{
+    //int MonPID=1234, MonPPID=7890;
+    int PID=0, PPID=0;
+    int RetVal=0;
     char Case[4];
+    sprintf(Case,"%4d", CaseNumber);
     //SetPIDnPPIDfromFile(MonPID,MonPPID, "0000");
     if (GetPIDnPPIDfromFile(&PID, &PPID, Case)==-1) 
-        SetPIDnPPIDfromFile(MonPID, MonPPID, Case);
+    {
+        RetVal=SetPIDnPPIDfromFile(MonPID, MonPPID, Case);
+        if (RetVal!=2) return 1;
+    }    
     else
     {
         //kill adversaire (PID)
-        SendSIG(PID, SIGQUIT);
+        SendSIG(PID, SIGQUIT); //Je tue le fils
         //Send SIGUSR1 PPID
-        SendSIG(PPID, SIGUSR1);
+        SendSIG(PPID, SIGUSR1); //Je signale au pere que j'ai tué un fils
         //approprier fichier
-        SetPIDnPPIDfromFile(MonPID, MonPPID, Case);
+        RetVal=SetPIDnPPIDfromFile(MonPID, MonPPID, Case); // J'écrit mon PID et mon PPID dans la case
+        if (RetVal!=2) return 1;
     }
-}    
+    return 0;
+}
+
+int SendSIG(pid_t PID, int Signal) //Envoi signal [SIG_QUIT, SIGUSR1, SIGUSR2] au PID avec kill()
+{
+    printf("J'envoie %d a %d\n",Signal,PID);
+}
