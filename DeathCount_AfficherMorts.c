@@ -11,7 +11,7 @@ typedef struct
 
 int AfficherMorts(Equipe * team)
 {
-    printf("L eqipe %s a perdu un fils.\n", team->Nom);
+    printf("L eqipe %s a perdu un fils.\n ", team->Nom);
 	return 0;
 }
 
