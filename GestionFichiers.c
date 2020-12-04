@@ -50,8 +50,19 @@ int SetPIDnPPIDfromFile(int PID, int PPID, char *FileName)
 
 int main(void)
 {
+    int MonPID=1234, MonPPID=7890;
     int PID=0, PPID=0;
-    SetPIDnPPIDfromFile(6789,1234, "0000");
-    GetPIDnPPIDfromFile(&PID, &PPID, "0000");
-    printf("PID:%4d - PPID:%4d\n", PID, PPID);
-}
+    char Case[4];
+    //SetPIDnPPIDfromFile(MonPID,MonPPID, "0000");
+    if (GetPIDnPPIDfromFile(&PID, &PPID, Case)==-1) 
+        SetPIDnPPIDfromFile(MonPID, MonPPID, Case);
+    else
+    {
+        //kill adversaire (PID)
+        SendSIG(PID, SIGQUIT);
+        //Send SIGUSR1 PPID
+        SendSIG(PPID, SIGUSR1);
+        //approprier fichier
+        SetPIDnPPIDfromFile(MonPID, MonPPID, Case);
+    }
+}    
