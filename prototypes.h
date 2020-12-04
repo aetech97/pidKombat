@@ -14,30 +14,4 @@ typedef struct
     pid_t PID_PERE;
     pid_t PID_FILS[5];
     int nbmorts;
-<<<<<<< HEAD
-}
-
-int SupprimerCases(char *FOLDER)
-{
-	//il faut un #include <unistd.h> et #include <dirent.h>
-	DIR *dir;
-	struct dirent *ent;
-	if (dir = opendir (FOLDER)) {
-		while ((ent = readdir(dir)))
-		{
-			if (!unlink(ent, d_name))
-			{
-				return 1;
-			}
-		}
-		closedir (dir);
-		return 0;
-	}
-	else 
-	{
-		return 1;
-	}
-}
-=======
 }Equipe;
->>>>>>> a84e86e56355bcd6a98bfd8546ea282e15a9b1b2
