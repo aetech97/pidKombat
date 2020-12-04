@@ -5,12 +5,13 @@ int SendSIG(pid_t PID, int Signal); //Envoi signal [SIG_QUIT, SIGUSR1, SIGUSR2] 
 int SupprimerCases(char *FOLDER); //Supprime toutes les cases (0000 to 9999)
 int SendNumber(int Pipe[2], int Nombre); 
 int ReadNumber(int Pipe[2], int *Nombre);
-int DeathCount(int Team); // a chaque appel, on incrémente le nb de morts de l'equipe désignée. A 5 morts, l'équipe a perdu
+int DeathCount(Equipe Team); // a chaque appel, on incrémente le nb de morts de l'equipe désignée. A 5 morts, l'équipe a perdu
+int AfficherMorts(Equipe Team); 
 
-typedef struct Equipe
+typedef struct
 {
     pid_t PID_MERE;
     pid_t PID_PERE;
     pid_t PID_FILS[5];
     int nbmorts;
-}
+}Equipe;
