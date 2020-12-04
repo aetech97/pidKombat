@@ -6,6 +6,7 @@
 #include <stdio.h> 
 #include <stdlib.h> 
 #include <unistd.h> 
+#include <sys/wait.h>
   
 int main() 
 { 
@@ -22,7 +23,7 @@ int main()
         getpid() ; 
         */
 
-        sleep(3);   
+        sleep(2);   
         printf("fils[1] --> pid = %d and ppid = %d\n", getpid(), getppid());
         printf("\n");
     } 
@@ -31,6 +32,7 @@ int main()
     else 
     { 
         pid1 = fork();      // fork 2
+        
         if (pid1 == 0)      // Si fork() = 0, c'est donc un process fils  
         { 
             /*
@@ -44,6 +46,7 @@ int main()
         else 
         { 
             pid2 = fork();  // fork 3
+            
             if (pid2 == 0) 
             { 
                 /*
@@ -58,6 +61,7 @@ int main()
             else
             { 
                 pid3 = fork(); //fork 4
+                
                 if (pid3 == 0)
                 {
                     /*
@@ -70,6 +74,7 @@ int main()
                 else
                 {
                     pid4 = fork(); //fork 5
+                    
                     if (pid4 == 0) 
                     { 
                         /*
@@ -84,11 +89,15 @@ int main()
                         sleep(3);
                         printf("parent --> pid = %d\n", getpid());
                     } 
+                    wait(NULL);
 
                 }
+                wait(NULL);
                     
-            }     
+            }
+            wait(NULL);    
         } 
+        wait(NULL);
     }
     wait(NULL);
     return 0; 
