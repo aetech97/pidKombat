@@ -14,4 +14,9 @@ typedef struct
     pid_t PID_PERE;
     pid_t PID_FILS[5];
     int nbmorts;
+<<<<<<< HEAD
+    char Nom[32];
 }Equipe;
+=======
+}Equipe;
+>>>>>>> 6338840378d25610284f774819022346a26829c9
