@@ -1,0 +1,1 @@
+int SupprimerCases(char *FOLDER);
