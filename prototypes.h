@@ -1,11 +1,3 @@
-typedef struct
-{
-    //pid_t PID_MERE;
-    //pid_t PID_PERE;
-    //pid_t PID_FILS[5];
-    //int nbmorts;
-}Equipe;
-
 int GenNombre(int NbMax);//Generer Nombre Aleatoire
 int GetPIDnPPIDfromFile(int *PID, int *PPID, char *FileName); // filename ="FOLDER/0000"
 int SetPIDnPPIDfromFile(int PID, int PPID, char *FileName);
