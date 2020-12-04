@@ -1,17 +1,9 @@
 #include <stdio.h>
-
-typedef struct
-{
-	char Nom[30];
-    int PID_MERE; //Remplacer int part pid_t
-    int PID_PERE; //Remplacer int part pid_t
-    int PID_FILS[5]; //Remplacer int part pid_t
-    int nbmorts;
-}Equipe;
+#include "DeathCount_AfficherMorts.h"
 
 int AfficherMorts(Equipe * team)
 {
-    printf("L eqipe %s a perdu un fils.\n ", team->Nom);
+    printf("L eqipe %s a perdu un fils.\n", team->Nom);
 	return 0;
 }
 
