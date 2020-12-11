@@ -43,6 +43,7 @@ int pere(int numero)
             //sleep(1);
             //Attendre la reception d'un chiffre aléatoire            
             nb_fichier=ReadNumber(nom_pipe);
+            printf("Pere%dFils1 Number to kill : %d",numero, nb_fichier);
             AttaquerCase(getpid(), getppid(), nb_fichier, SIGUSR1);
 
         }
@@ -66,6 +67,7 @@ int pere(int numero)
             while (1)
             {                
                 nb_fichier=ReadNumber(nom_pipe);
+                printf("Pere%dFils2 Number to kill : %d",numero, nb_fichier);
                 AttaquerCase(getpid(), getppid(), nb_fichier, SIGUSR1);
             }
     
@@ -86,6 +88,7 @@ int pere(int numero)
                 while (1)
                 {                    
                     nb_fichier=ReadNumber(nom_pipe);
+                    printf("Pere%dFils3 Number to kill : %d", numero, nb_fichier);
                     AttaquerCase(getpid(), getppid(), nb_fichier, SIGUSR1);
                 }
         
@@ -107,6 +110,7 @@ int pere(int numero)
                     while (1)
                     {
                         nb_fichier=ReadNumber(nom_pipe);
+                        printf("Pere%dFils4 Number to kill : %d", numero, nb_fichier);
                         AttaquerCase(getpid(), getppid(), nb_fichier, SIGUSR1);
                     }
  
@@ -127,6 +131,7 @@ int pere(int numero)
                         while (1)
                         {
                             nb_fichier=ReadNumber(nom_pipe);
+                            printf("Pere%dFils5 Number to kill : %d", numero, nb_fichier);
                             AttaquerCase(getpid(), getppid(), nb_fichier, SIGUSR1);
                         }
                 
@@ -135,12 +140,15 @@ int pere(int numero)
                     {                         
                         printf("parent --> pid = %d\n", getpid());
                         //Executer une boucle for pour envoyer un nb aléatoire à chaque fils
-                        for(int i=1;i<6;i++)
+                        while(1)
                         {
-                            sprintf(nom_pipe,"Pere%dFils%d",numero,i);
-                            rand_nb=GenNombre(NB_MAX);
-                            SendNumber(nom_pipe, rand_nb);
-                            sleep(1);
+                            for(int i=1;i<6;i++)
+                            {
+                                sprintf(nom_pipe,"Pere%dFils%d",numero,i);
+                                rand_nb=GenNombre(NB_MAX);
+                                SendNumber(nom_pipe, rand_nb);
+                                sleep(1);
+                            }
                         }
                     } 
                     wait(NULL);

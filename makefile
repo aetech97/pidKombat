@@ -14,7 +14,7 @@ RMFLAGS = -rf
 
 .PHONY: clean deepclean
 
-main: GestionFichiers.o number_generator.o signaux.o
+main: GestionFichiers.o number_generator.o signaux.o fork_5_fils.o fork_2_peres.o
 	$(LD) $(LDFLAGS) $^ -o $@
 
 GestionFichiers.o: GestionFichiers.c
@@ -24,6 +24,12 @@ number_generator.o: number_generator.c
 	$(CC) $(CFLAGS) $<
 
 signaux.o: signaux.c 
+	$(CC) $(CFLAGS) $<
+
+fork_2_peres.o: fork_2_peres.c 
+	$(CC) $(CFLAGS) $<
+
+fork_5_fils.o: fork_5_fils.c 
 	$(CC) $(CFLAGS) $<
 
 clean:
