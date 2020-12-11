@@ -1,3 +1,8 @@
+/*
+Fichier prototypes.h
+Auteur : Pierre LAGO
+Mois/Année : Décembre 2020
+*/
 typedef struct
 {
     pid_t PID_MERE;
