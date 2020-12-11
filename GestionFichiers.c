@@ -14,6 +14,8 @@ Mois/Année : Décembre 2020
 #include <sys/types.h>    
 #include "prototypes.h"
 
+#define FOLDER "Cases"
+
 int GetPIDnPPIDfromFile(int *PID, int *PPID, char *FileName) // filename ="FOLDER/0000"
 {
     int nb=0;

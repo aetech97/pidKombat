@@ -90,12 +90,13 @@ void main()
 int GenNombre(int NbMax)
 {
     int number,previous;
-    srandom(time(0));
+    //srandom(time(0));
+    srandom(clock());
     number=random()%NbMax;
     previous=number;
     while(number == previous) 
     {
-        srandom(time(0));
+        srandom(clock());
         number=random()%NbMax);
     }
     return number;

@@ -24,7 +24,7 @@ int pere(int numero)
         getpid() ; 
         */
 
-        sleep(2);   
+        sleep(1);   
         printf("Pere%dfils[1] --> pid = %d and ppid = %d\n", numero, getpid(), getppid());
         printf("\n");
         while (1)
@@ -65,7 +65,7 @@ int pere(int numero)
                 getpid();   // donne le pid du deuxième fils
                 */
 
-                sleep(2);
+                sleep(3);
                 printf("Pere%dfils[3] --> pid = %d and ppid = %d\n", numero, getpid(), getppid());
                 while (1)
                 {
@@ -85,7 +85,7 @@ int pere(int numero)
                     getpid();
                     */
 
-                    sleep(2);
+                    sleep(4);
                     printf("Pere%dfils[4] --> pid = %d and ppid = %d\n", numero, getpid(), getppid());
                     while (1)
                     {
@@ -104,7 +104,7 @@ int pere(int numero)
                         getpid();
                         */
 
-                        sleep(2);
+                        sleep(5);
                         printf("Pere%dfils[5] --> pid = %d and ppid = %d\n", numero, getpid(), getppid());
                         while (1)
                         {
