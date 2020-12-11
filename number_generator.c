@@ -91,13 +91,13 @@ int GenNombre(int NbMax)
 {
     int number,previous;
     //srandom(time(0));
-    srandom(clock());
+    srandom(clock()+getpid());
     number=random()%NbMax;
     previous=number;
     while(number == previous) 
     {
-        srandom(clock());
-        number=random()%NbMax);
+        srandom(clock()+getpid());
+        number=random()%NbMax;
     }
     return number;
 }
