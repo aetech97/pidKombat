@@ -1,3 +1,9 @@
+/*
+Fichier SupprimerCases.c
+Auteur : Abdelkhalek
+Mois/Année : Décembre 2020
+*/
+
 #include <stdio.h>
 #include <string.h>
 #include <dirent.h>
@@ -30,7 +36,7 @@ int SupprimerCases(char *FOLDER)
 
 int main(int argc, char** argv)
 {
-    char path[PATH_MAX] = "C:\\Users\\aelomari\\Documents\\ISEN\\SYSEXP Project\\test\\test"; //Le path peut etre calcul� autommatiquement (getcwd ou argv[0] + nom_dossier_fichiers)
+    char path[PATH_MAX] = "C:\\Users\\aelomari\\Documents\\ISEN\\SYSEXP Project\\test\\test"; //Le path peut etre calcul� autommatiquement (getcwd ou argv[0] + nom_dossier_fichiers)
 	int result = SupprimerCases(path);
 	printf("%d", result);
     return 0;

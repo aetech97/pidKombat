@@ -8,8 +8,9 @@
 #include <unistd.h> 
 #include <sys/wait.h>
   
-int main() 
+int pere(int numero) 
 { 
+    
     int pid, pid1, pid2, pid3, pid4, pid5; 
     // la variable pid recoit et retourne les valeurs données par le fork 
 
