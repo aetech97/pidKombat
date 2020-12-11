@@ -1,8 +1,3 @@
-/*
-
-Auteur : Hector
-Mois/Année : Décembre 2020
-*/
 #include<stdio.h>
 #include<sys/types.h>
 #include<sys/wait.h>

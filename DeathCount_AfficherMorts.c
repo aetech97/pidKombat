@@ -1,8 +1,3 @@
-/*
-Fichier GestionFichiers.c
-Auteur : Abdelkhalek
-Mois/Année : Décembre 2020
-*/
 #include <stdio.h>
 #include "DeathCount_AfficherMorts.h"
 

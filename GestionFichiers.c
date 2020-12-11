@@ -31,9 +31,8 @@ int GetPIDnPPIDfromFile(int *PID, int *PPID, char *FileName) // filename ="FOLDE
     else
     {    
         //printf("Erreur ouverture %s : %d", FileName, Fichier);
-        //return Fichier;
+        return Fichier;
     }
-    return Fichier;
 }
 
 int SetPIDnPPIDfromFile(int PID, int PPID, char *FileName)
@@ -53,13 +52,11 @@ int SetPIDnPPIDfromFile(int PID, int PPID, char *FileName)
 int main(void)
 {
     int Case, MonPID=getpid(), MonPPID=getppid();
-    printf("MonPID : %d \t Mon PPID : %d", MonPID, MonPPID);
-    getchar();
     for (int i=0; i<100; i++)
     {
-        while(Case == GenNombre(9999));//Pour ne pas utiliser plusieurs fois le même nombre aléatoire
+        while(Case == GenNombre(9999));
         Case = GenNombre(9999);
-        AttaquerCase(MonPID, MonPPID, Case, SIGUSR1); //Attaquer case
+        AttaquerCase(MonPPID, MonPID, Case, SIGUSR1);
     }
 }    
 
@@ -69,7 +66,6 @@ int SendSIG2(pid_t PID, int Signal) //Envoi signal [SIG_QUIT, SIGUSR1, SIGUSR2] 
     if (Signal==3) NomSignal="SIGQUIT";
     else NomSignal="SIGUSR1";
     printf("J'envoie %s a %d\n",NomSignal,PID);
-    return 1;
 }
 
 
@@ -79,19 +75,19 @@ int AttaquerCase(int MonPID, int MonPPID, int CaseNumber, int Signal) //Signal =
     int PID=0, PPID=0;
     int RetVal=0;
     char Case[4];
-    sprintf(Case,"%4d", CaseNumber);//Conversion du CaseNumber en char
+    sprintf(Case,"%4d", CaseNumber);
     //SetPIDnPPIDfromFile(MonPID,MonPPID, "0000");
-    if (GetPIDnPPIDfromFile(&PID, &PPID, Case)==-1) //La case est occupée ?
+    if (GetPIDnPPIDfromFile(&PID, &PPID, Case)==-1) 
     {
-        printf("Le PID %d occupe la case %s\n",MonPID, Case); //si libre, j'occupe la case
+        printf("Le PID %d occupe la case %s\n",MonPID, Case);
         RetVal=SetPIDnPPIDfromFile(MonPID, MonPPID, Case);
         if (RetVal!=2) return 1;
     }    
     else
     {
-        if (PPID!=MonPPID) //sinon, je vérifie qu'elle n'appartient pas a mon frère
+        if (PPID!=MonPPID)
         {
-            printf("Le PID %d vole la case %s au PID %d\n",MonPID, Case,PID); //je vole la case
+            printf("Le PID %d vole la case %s au PID %d\n",MonPID, Case,PID);
             //kill adversaire (PID)
             SendSIG(PID, SIGQUIT); //Je tue le fils
             //Send SIGUSR1 PPID
@@ -101,7 +97,7 @@ int AttaquerCase(int MonPID, int MonPPID, int CaseNumber, int Signal) //Signal =
             if (RetVal!=2) return 1;
         }
         else
-            printf("La case %s appartient deja au PPID %d\n", Case, MonPPID); // Je laisse la case à mon frère
+            printf("La case %s appartient deja au PPID %d\n", Case, MonPPID);
     }
     return 0;
 }
