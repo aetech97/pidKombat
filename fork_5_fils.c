@@ -14,15 +14,12 @@
 int pere(int numero) 
 { 
     int pid, pid1, pid2, pid3, pid4, pid5;
-    int nb_fichier;
-    char * nom_pipe="";
+    int nb_fichier,rand_nb;
+    char nom_pipe[32]="";
 
     for(int i=1;i<6;i++)
     {
-        printf("Pere%d_Fils%d : Nom du pipe: %s\n",numero,i,nom_pipe);
-        sprintf(nom_pipe,"Pere%d_Fils%d",numero,i);
-        printf("Hola bebe\n");
-        printf("Nom du pipe : %s\n",nom_pipe);
+        sprintf(nom_pipe,"Pere%dFils%d",numero,i);
         initPipe(nom_pipe);
     }
 
@@ -40,13 +37,12 @@ int pere(int numero)
 
         sleep(1);   
         printf("Pere%dfils[1] --> pid = %d and ppid = %d\n", numero, getpid(), getppid());
-        printf("\n");
+        sprintf(nom_pipe,"Pere%dFils1",numero);
         while (1)
         {
             //sleep(1);
-            //Attendre la reception d'un chiffre aléatoire
-            sprintf(nom_pipe,"Pere%d_Fils1",numero);
-            ReadNumber(nom_pipe, &nb_fichier);
+            //Attendre la reception d'un chiffre aléatoire            
+            nb_fichier=ReadNumber(nom_pipe);
             AttaquerCase(getpid(), getppid(), nb_fichier, SIGUSR1);
 
         }
@@ -66,10 +62,10 @@ int pere(int numero)
 
             sleep(2); 
             printf("Pere%dfils[2] --> pid = %d and ppid = %d\n",numero, getpid(), getppid());
+            sprintf(nom_pipe,"Pere%dFils2",numero);
             while (1)
-            {
-                sprintf(nom_pipe,"Pere%d_Fils2",numero);
-                ReadNumber(nom_pipe, &nb_fichier);
+            {                
+                nb_fichier=ReadNumber(nom_pipe);
                 AttaquerCase(getpid(), getppid(), nb_fichier, SIGUSR1);
             }
     
@@ -86,10 +82,10 @@ int pere(int numero)
 
                 sleep(3);
                 printf("Pere%dfils[3] --> pid = %d and ppid = %d\n", numero, getpid(), getppid());
+                sprintf(nom_pipe,"Pere%dFils3",numero);
                 while (1)
-                {
-                    sprintf(nom_pipe,"Pere%d_Fils3",numero);
-                    ReadNumber(nom_pipe, &nb_fichier);
+                {                    
+                    nb_fichier=ReadNumber(nom_pipe);
                     AttaquerCase(getpid(), getppid(), nb_fichier, SIGUSR1);
                 }
         
@@ -107,10 +103,10 @@ int pere(int numero)
 
                     sleep(4);
                     printf("Pere%dfils[4] --> pid = %d and ppid = %d\n", numero, getpid(), getppid());
+                    sprintf(nom_pipe,"Pere%dFils4",numero);
                     while (1)
                     {
-                        sprintf(nom_pipe,"Pere%d_Fils4",numero);
-                        ReadNumber(nom_pipe, &nb_fichier);
+                        nb_fichier=ReadNumber(nom_pipe);
                         AttaquerCase(getpid(), getppid(), nb_fichier, SIGUSR1);
                     }
  
@@ -127,23 +123,24 @@ int pere(int numero)
 
                         sleep(5);
                         printf("Pere%dfils[5] --> pid = %d and ppid = %d\n", numero, getpid(), getppid());
+                        sprintf(nom_pipe,"Pere%dFils5",numero);
                         while (1)
                         {
-                            sprintf(nom_pipe,"Pere%d_Fils5",numero);
-                            ReadNumber(nom_pipe, &nb_fichier);
+                            nb_fichier=ReadNumber(nom_pipe);
                             AttaquerCase(getpid(), getppid(), nb_fichier, SIGUSR1);
                         }
                 
                     }
                     else
-                    { 
-                        sleep(3);
+                    {                         
                         printf("parent --> pid = %d\n", getpid());
                         //Executer une boucle for pour envoyer un nb aléatoire à chaque fils
                         for(int i=1;i<6;i++)
                         {
-                            sprintf(nom_pipe,"Pere%d_Fils%d",numero,i);
-                            SendNumber(nom_pipe, GenNombre(NB_MAX));
+                            sprintf(nom_pipe,"Pere%dFils%d",numero,i);
+                            rand_nb=GenNombre(NB_MAX);
+                            SendNumber(nom_pipe, rand_nb);
+                            sleep(1);
                         }
                     } 
                     wait(NULL);

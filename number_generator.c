@@ -32,8 +32,6 @@ const char *E2_PIPE_4= "pipe9";
 const char *E2_PIPE_5= "pipe10";
 
 //Function to initialize A pipe
-int initPipe(const char *Pipe);
-int destroyPipe(const char *Pipe);
 
 //*****************************Start of main to allow unitary tests*****************************
 #if UNITARY_TEST
@@ -125,10 +123,12 @@ int SendNumber(const char *Pipe, int Nombre)
     close(dp);                          // Fermeture du pipe en écriture                        
 }
 
-int ReadNumber(const char *Pipe, int *Nombre)
+int ReadNumber(const char *Pipe)
 {
     int dp;
+    int Nombre;
     dp=open(Pipe,O_RDONLY);          // Ouverture du pipe 
 	read(dp,&Nombre,sizeof(int));	    // Lecture dans le pipe 
 	close(dp);                          // Fermeture du pipe en écriture
+    return Nombre;
 }
