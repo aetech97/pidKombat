@@ -16,6 +16,7 @@
 #include"prototypes.h"
 
 #define UNITARY_TEST 0  // =>1 to launch main test  ;   =>0 to deactivate main code
+struct timespec nanos;
 
 //Team 1 Pipes
 const char *E1_PIPE_1= "pipe1";
@@ -89,12 +90,20 @@ int GenNombre(int NbMax)
 {
     int number,previous;
     //srandom(time(0));
-    srandom(clock()+getpid());
+    //srandom(clock()+getpid());
+
+
+    clock_gettime(CLOCK_MONOTONIC, &nanos);
+    srandom(nanos.tv_nsec);
+
     number=random()%NbMax;
     previous=number;
     while(number == previous) 
     {
         srandom(clock()+getpid());
+
+        clock_gettime(CLOCK_MONOTONIC, &nanos);
+        srandom(nanos.tv_nsec);
         number=random()%NbMax;
     }
     return number;
