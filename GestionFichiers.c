@@ -18,7 +18,7 @@ int GetPIDnPPIDfromFile(int *PID, int *PPID, char *FileName) // filename ="FOLDE
 {
     int nb=0;
     int Buf;
-    int Fichier = open(FileName, O_RDONLY); //lecture
+    int Fichier = open(FileName, O_RDONLY); //lecture seule
     if (Fichier>0)
     {
         nb=read(Fichier, &Buf, sizeof(int));
@@ -31,8 +31,9 @@ int GetPIDnPPIDfromFile(int *PID, int *PPID, char *FileName) // filename ="FOLDE
     else
     {    
         //printf("Erreur ouverture %s : %d", FileName, Fichier);
-        return Fichier;
+        
     }
+    return Fichier;
 }
 
 int SetPIDnPPIDfromFile(int PID, int PPID, char *FileName)
@@ -49,7 +50,7 @@ int SetPIDnPPIDfromFile(int PID, int PPID, char *FileName)
     return nb;
 }
 
-int main(void)
+int main2(void)
 {
     int Case, MonPID=getpid(), MonPPID=getppid();
     for (int i=0; i<100; i++)

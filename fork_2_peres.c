@@ -7,7 +7,8 @@
 #include <stdlib.h> 
 #include <unistd.h> 
 #include <sys/wait.h>
-  
+#include "prototypes.h"
+
 int main() 
 { 
     int pid, pid1, pid2 ; 
@@ -21,7 +22,10 @@ int main()
                // prend le PID du fils1 (papa1)
         sleep(2);   
         printf("papa[1] --> pid = %d and ppid = %d\n", getpid(), getppid());
+        pere(1);
         printf("\n");
+
+        
     } 
 
     // sinon fork du premier fils  
@@ -33,6 +37,7 @@ int main()
         { 
             sleep(2); 
             printf("papa[2] --> pid = %d and ppid = %d\n", getpid(), getppid());
+            pere(2);
 
         } 
         else 

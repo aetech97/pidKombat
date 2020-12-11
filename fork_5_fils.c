@@ -7,8 +7,9 @@
 #include <stdlib.h> 
 #include <unistd.h> 
 #include <sys/wait.h>
+#include "prototypes.h"
   
-int main() 
+int pere(int numero) 
 { 
     int pid, pid1, pid2, pid3, pid4, pid5; 
     // la variable pid recoit et retourne les valeurs données par le fork 
@@ -24,8 +25,14 @@ int main()
         */
 
         sleep(2);   
-        printf("fils[1] --> pid = %d and ppid = %d\n", getpid(), getppid());
+        printf("Pere%dfils[1] --> pid = %d and ppid = %d\n", numero, getpid(), getppid());
         printf("\n");
+        while (1)
+        {
+            sleep(1);
+            AttaquerCase(getpid(), getppid(), GenNombre(9999), SIGUSR1);
+        }
+        
     } 
 
     // sinon fork du premier fils  
@@ -40,8 +47,13 @@ int main()
             */
 
             sleep(2); 
-            printf("fils[2] --> pid = %d and ppid = %d\n", getpid(), getppid());
-
+            printf("Pere%dfils[2] --> pid = %d and ppid = %d\n",numero, getpid(), getppid());
+            while (1)
+            {
+                sleep(1);
+                AttaquerCase(getpid(), getppid(), GenNombre(9999), SIGUSR1);
+            }
+    
         } 
         else 
         { 
@@ -54,8 +66,13 @@ int main()
                 */
 
                 sleep(2);
-                printf("fils[3] --> pid = %d and ppid = %d\n", getpid(), getppid());
-
+                printf("Pere%dfils[3] --> pid = %d and ppid = %d\n", numero, getpid(), getppid());
+                while (1)
+                {
+                    sleep(1);
+                    AttaquerCase(getpid(), getppid(), GenNombre(9999), SIGUSR1);
+                }
+        
 
             }
             else
@@ -69,7 +86,13 @@ int main()
                     */
 
                     sleep(2);
-                    printf("fils[4] --> pid = %d and ppid = %d\n", getpid(), getppid());
+                    printf("Pere%dfils[4] --> pid = %d and ppid = %d\n", numero, getpid(), getppid());
+                    while (1)
+                    {
+                        sleep(1);
+                        AttaquerCase(getpid(), getppid(), GenNombre(9999), SIGUSR1);
+                    }
+ 
                 }
                 else
                 {
@@ -82,7 +105,13 @@ int main()
                         */
 
                         sleep(2);
-                        printf("fils[5] --> pid = %d and ppid = %d\n", getpid(), getppid());
+                        printf("Pere%dfils[5] --> pid = %d and ppid = %d\n", numero, getpid(), getppid());
+                        while (1)
+                        {
+                            sleep(1);
+                            AttaquerCase(getpid(), getppid(), GenNombre(9999), SIGUSR1);
+                        }
+                
                     }
                     else
                     { 

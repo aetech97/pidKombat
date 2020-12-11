@@ -89,9 +89,15 @@ void main()
 //Dont call this function too fast, it might return the same number (pay attention to the time and/or threads!!)
 int GenNombre(int NbMax)
 {
-    int number=0;
+    int number,previous;
     srandom(time(0));
-    number = random()%NbMax;
+    number=random()%NbMax;
+    previous=number;
+    while(number == previous) 
+    {
+        srandom(time(0));
+        number=random()%NbMax);
+    }
     return number;
 }
 

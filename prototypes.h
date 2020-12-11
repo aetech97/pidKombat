@@ -17,3 +17,4 @@ int ReadNumber(const char *Pipe, int *Nombre);
 int DeathCount(Equipe * Team); // a chaque appel, on incrémente le nb de morts de l'equipe désignée. A 5 morts, l'équipe a perdu
 int AfficherMorts(Equipe * Team); 
 int AttaquerCase(int MonPID, int MonPPID, int CaseNumber, int Signal); //Signal = SIGUSR1 pour PERE1 et SIGUSR2 pour PERE2
+int pere(int numero);
