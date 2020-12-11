@@ -4,3 +4,5 @@
 !*.*
 #unignore all dirs
 !*/
+#ignore .o
+*.o
