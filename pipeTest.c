@@ -5,17 +5,29 @@
 #include<stdlib.h>
 #include<fcntl.h>
 
+#include "prototypes.h"
+
 int main(void)
 {
-	int des;
-	int pid;
-	char buf[7];
-	int nb_recv;
+	int nb_recv,dp;
 
-	des=open("pipe1",O_RDONLY);
-	read(des,&nb_recv,sizeof(int));
+    nb_recv=ReadNumber("pipe1");
+
+    //dp=open("pipe1",O_RDONLY);          // Ouverture du pipe 
+	//read(dp,&nb_recv,sizeof(int));	    // Lecture dans le pipe 
+	//close(dp);                          // Fermeture du pipe en écriture
+
 	printf("Child here, i received => %d\n",nb_recv);
-	close(des);                 // Fermeture du pipe en écriture
 	printf("\nChild process ***DONE***!\n");
 	exit(0);
+}
+
+int ReadNumber(const char *Pipe)
+{
+    int dp;
+    int Nombre;
+    dp=open(Pipe,O_RDONLY);          // Ouverture du pipe 
+	read(dp,&Nombre,sizeof(int));	    // Lecture dans le pipe 
+	close(dp);                          // Fermeture du pipe en écriture
+    return Nombre;
 }

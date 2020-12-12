@@ -36,13 +36,10 @@ const char *E2_PIPE_5= "pipe10";
 
 //*****************************Start of main to allow unitary tests*****************************
 #if UNITARY_TEST
-void main()
+int main(void)
 {
-    int desc[2];
     int pid;
-    char buf[7];
     int max_rand=500,rand_nb=0;
-    int dp;
     int pipe_nb;
 
     const char *team1_pipes[5]={E1_PIPE_1,E1_PIPE_2,E1_PIPE_3,E1_PIPE_4,E1_PIPE_5};
@@ -81,6 +78,7 @@ void main()
         wait(0);
         printf("\nParent process ***DONE***\n");
     }
+    return 0;
 }
 #endif
 //*****************************End of main to allow unitary tests*****************************
@@ -88,7 +86,7 @@ void main()
 //Dont call this function too fast, it might return the same number (pay attention to the time and/or threads!!)
 int GenNombre(int NbMax)
 {
-    int number,previous;
+    int number=0,previous=0;
     //srandom(time(0));
     //srandom(clock()+getpid());
 
@@ -111,7 +109,7 @@ int GenNombre(int NbMax)
 
 int initPipe(const char * Pipe)
 {
-    int stat;
+    int stat=0;
     unlink(Pipe);
     stat=mkfifo(Pipe,0666);
     return stat;
@@ -119,25 +117,42 @@ int initPipe(const char * Pipe)
 
 int destroyPipe(const char * Pipe)
 {
-    int stat;
+    int stat=0;
     stat = unlink(Pipe);
     return stat;
 }
 
 int SendNumber(const char *Pipe, int Nombre)
 {
-    int dp;
+    int dp=0;
+    int state=0;
+
     dp=open(Pipe,O_WRONLY);           // Ouverture du pipe 
-    write(dp,&Nombre,sizeof(int));      // Ecriture dans le pipe
-    close(dp);                          // Fermeture du pipe en écriture                        
+    state=write(dp,&Nombre,sizeof(int));      // Ecriture dans le pipe
+    close(dp);                          // Fermeture du pipe en écriture 
+    if(state<=0)
+    {
+        printf("ERROR Ecriture PIPE => %s\n",Pipe);
+        printf("\tSTATE VALUE => %d\n",state);
+    }
+    return state;                       
 }
 
 int ReadNumber(const char *Pipe)
 {
-    int dp;
-    int Nombre;
+    int dp=0;
+    int Nombre=0;
+    int state=0;
+
     dp=open(Pipe,O_RDONLY);          // Ouverture du pipe 
-	read(dp,&Nombre,sizeof(int));	    // Lecture dans le pipe 
-	close(dp);                          // Fermeture du pipe en écriture
+	state=read(dp,&Nombre,sizeof(int));	    // Lecture dans le pipe
+    close(dp);                          // Fermeture du pipe en écriture 
+    if(state<=0)
+    {
+        printf("ERROR Lecture PIPE => %s\n",Pipe);
+        printf("\tSTATE VALUE    => %d\n",state);
+        printf("\tDP VALUE       => %d\n",dp);      
+        return -1;
+    }
     return Nombre;
 }

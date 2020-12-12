@@ -12,7 +12,8 @@
 int main() 
 { 
     int pid, pid1, pid2 ; 
-    // la variable pid recoit et retourne les valeurs données par le fork 
+    // la variable pid recoit et retourne les valeurs données par le fork
+    printf("Starting the program!!\n"); 
 
     pid = fork(); // fork un première fois
   
@@ -38,7 +39,7 @@ int main()
             sleep(2); 
             printf("papa[2] --> pid = %d and ppid = %d\n", getpid(), getppid());
             pere(2);
-
+            printf("\n");
         } 
         else 
         { 
