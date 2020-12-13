@@ -13,9 +13,10 @@ int SendSIG(pid_t PID, int Signal)
 //Envoi signal [SIG_QUIT, SIGUSR1, SIGUSR2] au PID avec kill()
 
 {
-    printf("PAN!!!!\n", Signal, PID);
+    printf("PAN!!!!\n");//, Signal, PID);
     kill(PID,Signal);
     wait(NULL);
+    return 1;
 }
 
 

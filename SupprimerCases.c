@@ -11,10 +11,10 @@ int SupprimerCases(char *FOLDER)
 	struct dirent *ent;
 	char cwd[PATH_MAX];
 	getcwd(cwd, sizeof(cwd));
-	if (dir = opendir (FOLDER))
+	if ((dir=opendir(FOLDER)))
     {
         chdir(FOLDER);
-		while (ent = readdir (dir))
+		while ((ent=readdir(dir)))
 		{
             unlink(ent->d_name);
 		}

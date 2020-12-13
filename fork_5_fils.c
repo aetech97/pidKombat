@@ -13,7 +13,7 @@
   
 int pere(int numero) 
 { 
-    int pid, pid1, pid2, pid3, pid4, pid5;
+    int pid, pid1, pid2, pid3, pid4;
     int rand_nb;
     int nb_fichier[5];
     char nom_pipe[5][32]={"\0","\0","\0","\0","\0"};
@@ -222,7 +222,7 @@ int pere(int numero)
                                 sleep(1);
                             }
                             sleep(1);
-                            printf("\n\t********************ETAT des ENFANTS - PERE %d:********************\n\n",numero);
+                            printf("\n\t********************ETAT des ENFANTS - PERE %d (PID=%d):********************\n\n",numero, getpid());
                             for(int i=0;i<5;i++)
                             {
                                 if(etat_fils[i]!=-1)

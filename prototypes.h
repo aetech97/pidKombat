@@ -26,3 +26,5 @@ int ReadBuff(const char *Pipe,char *buffer);
 int initPipe(const char * Pipe);
 int initPipeMere(const char * Pipe);
 int destroyPipe(const char * Pipe);
+
+void Dessiner(int PID1, int PID2);
