@@ -12,6 +12,7 @@
 #include<fcntl.h>
 #include<stdio.h>
 #include <sys/stat.h>
+#include <errno.h>
 
 #include"prototypes.h"
 
@@ -111,7 +112,7 @@ int initPipe(const char * Pipe)
 {
     int stat=0;
     unlink(Pipe);
-    stat=mkfifo(Pipe,0666);
+    stat=mkfifo(Pipe,0750);
     return stat;
 }
 
@@ -127,13 +128,18 @@ int SendNumber(const char *Pipe, int Nombre)
     int dp=0;
     int state=0;
 
-    dp=open(Pipe,O_WRONLY);           // Ouverture du pipe 
+    dp=open(Pipe,O_WRONLY | O_NONBLOCK);           // Ouverture du pipe    
     state=write(dp,&Nombre,sizeof(int));      // Ecriture dans le pipe
-    close(dp);                          // Fermeture du pipe en écriture 
+    //close(dp);                          // Fermeture du pipe en écriture 
     if(state<=0)
     {
         printf("ERROR Ecriture PIPE => %s\n",Pipe);
         printf("\tSTATE VALUE => %d\n",state);
+        if(errno==ENXIO)
+        {
+            printf("\t***CLOSING PIPE*** => %s\n",Pipe);
+            close(dp);
+        } 
     }
     return state;                       
 }
