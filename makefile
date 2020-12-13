@@ -21,6 +21,9 @@ RMFLAGS = -rf
 main: GestionFichiers.o number_generator.o signaux.o fork_5_fils.o fork_2_peres.o Damier.o SupprimerCases.o
 	$(LD) $(LDFLAGS) $^ -o $@
 
+GenDamier: GestionFichiers.o number_generator.o signaux.o Damier.o SupprimerCases.o GenDamier.o
+	$(LD) $(LDFLAGS) $^ -o $@
+
 GestionFichiers.o: GestionFichiers.c
 	$(CC) $(CFLAGS) $<
 
@@ -41,6 +44,10 @@ Damier.o: Damier.c
 
 SupprimerCases.o: SupprimerCases.c 
 	$(C++) $(C++FLAGS) $<
+
+GenDamier.o: GenDamier.cpp 
+	$(C++) $(C++FLAGS) $<
+
 	
 clean:
 	$(RM) $(RMFLAGS) *.o
