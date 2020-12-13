@@ -20,5 +20,9 @@ int AfficherMorts(Equipe * Team);
 int AttaquerCase(int MonPID, int MonPPID, int CaseNumber, int Signal); //Signal = SIGUSR1 pour PERE1 et SIGUSR2 pour PERE2
 int pere(int numero);
 
+int SendBuff(const char *Pipe,const char *buffer);
+int ReadBuff(const char *Pipe,char *buffer);
+
 int initPipe(const char * Pipe);
+int initPipeMere(const char * Pipe);
 int destroyPipe(const char * Pipe);

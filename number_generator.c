@@ -18,9 +18,11 @@
 #include"prototypes.h"
 
 #define UNITARY_TEST 0  // =>1 to launch main test  ;   =>0 to deactivate main code
+#define MODE_DEBUG 0  // =>1 to show print  ;   =>0 to deactivate 
 struct timespec nanos;
 
 #define FOLDER_PIPES "Pipes/"
+#define FOLDER_PIPES_MERE "PipesMere/"
 
 //Team 1 Pipes
 const char *E1_PIPE_1= "pipe1";
@@ -124,6 +126,19 @@ int initPipe(const char * Pipe)
     return stat;
 }
 
+int initPipeMere(const char * Pipe)
+{
+    int stat=0;
+    char fic_Pipe[32]="\0";
+
+    strcat(fic_Pipe,FOLDER_PIPES_MERE);
+    strcat(fic_Pipe,Pipe);
+
+    unlink(fic_Pipe);
+    stat=mkfifo(fic_Pipe,0750);
+    return stat;
+}
+
 int destroyPipe(const char * Pipe)
 {
     int stat=0;
@@ -153,9 +168,11 @@ int SendNumber(const char *Pipe, int Nombre)
         //Si le pipe n'a pas été ouvert précedemment, le fermer!
         if(errno==ENXIO)
         {
+#if MODE_DEBUG            
             printf("ERROR Ecriture PIPE => %s\n",Pipe);
             printf("\tSTATE VALUE => %d\n",state);
             printf("\t***CLOSING PIPE*** => %s\n",Pipe);
+#endif             
             close(dp);
         }
         //Si state<=0, rien n'a été écrit, alors le child est compromis!!
@@ -179,10 +196,72 @@ int ReadNumber(const char *Pipe)
     close(dp);                          // Fermeture du pipe en écriture 
     if(state<=0)
     {
+#if MODE_DEBUG 
         printf("ERROR Lecture PIPE => %s\n",Pipe);
         printf("\tSTATE VALUE    => %d\n",state);
         printf("\tDP VALUE       => %d\n",dp);      
+#endif         
         return -1;
     }
     return Nombre;
+}
+
+int SendBuff(const char *Pipe,const char *buffer)
+{
+    int dp=0;
+    int state=0;
+    char fic_Pipe[32]="\0";
+
+    strcat(fic_Pipe,FOLDER_PIPES_MERE);
+    strcat(fic_Pipe,Pipe);
+
+    dp=open(fic_Pipe,O_WRONLY|O_SYNC);           // Ouverture du pipe    
+    state=write(dp,buffer,5);      // Ecriture dans le pipe
+    //close(dp);                          // Fermeture du pipe en écriture 
+    if(state<=0)
+    {
+        //Si le pipe n'a pas été ouvert précedemment, le fermer!
+        if(errno==ENXIO)
+        {
+#if MODE_DEBUG            
+            printf("ERROR Ecriture PIPE => %s\n",Pipe);
+            printf("\tSTATE VALUE => %d\n",state);
+            printf("\t***CLOSING PIPE*** => %s\n",Pipe);
+#endif             
+            
+        }
+        //Si state<=0, rien n'a été écrit, alors le child est compromis!!
+        close(dp);
+        return state;
+    }
+    close(dp);
+    return state;                       
+}
+
+int ReadBuff(const char *Pipe,char *buffer)
+{
+    int dp=0;
+    int state=0;
+    char fic_Pipe[32]="\0";
+    char recv_buffer[5];
+
+    strcat(fic_Pipe,FOLDER_PIPES_MERE);
+    strcat(fic_Pipe,Pipe);
+
+    dp=open(fic_Pipe,O_RDONLY|O_SYNC);          // Ouverture du pipe 
+	state=read(dp,recv_buffer,5);	    // Lecture dans le pipe
+    strcpy(buffer,recv_buffer);
+    //close(dp);                          // Fermeture du pipe en écriture 
+    if(state<=0)
+    {
+#if MODE_DEBUG        
+        printf("ERROR Lecture PIPE => %s\n",Pipe);
+        printf("\tSTATE VALUE    => %d\n",state);
+        printf("\tDP VALUE       => %d\n",dp);              
+#endif         
+        //close(dp);
+        return state;
+    }
+    close(dp);
+    return 1;
 }

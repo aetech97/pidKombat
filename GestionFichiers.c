@@ -16,6 +16,7 @@ Mois/Année : Décembre 2020
 
 #define FOLDER "Cases/"
 #define FOLDER_PIPES "Pipes/"
+#define FOLDER_PIPES_MERE "PipesMere/"
 
 struct stat st = {0};
 
@@ -124,15 +125,25 @@ int AttaquerCase(int MonPID, int MonPPID, int CaseNumber, int Signal) //Signal =
 
 void init_Folders(void)
 {
+    //Init le folder avec les cases
     if (stat(FOLDER, &st) == -1) 
     {
-        mkdir(FOLDER, 0750);
+        mkdir(FOLDER, 0760);
     }
     SupprimerCases(FOLDER);
+
+    //Init le folder avec les pipes des fils
     if (stat(FOLDER_PIPES, &st) == -1) 
     {
-        mkdir(FOLDER_PIPES, 0750);
+        mkdir(FOLDER_PIPES, 0760);
     }
     SupprimerCases(FOLDER_PIPES);
+
+    //Init le folder avec les pipes des peres
+    if (stat(FOLDER_PIPES_MERE, &st) == -1) 
+    {
+        mkdir(FOLDER_PIPES_MERE, 0760);
+    }
+    SupprimerCases(FOLDER_PIPES_MERE);
 }
 

@@ -19,10 +19,15 @@ int pere(int numero)
     char nom_pipe[5][32]={"\0","\0","\0","\0","\0"};
     char pipeTab[5][32]={"\0","\0","\0","\0","\0"};
     int etat_fils[5]={0,0,0,0,0};
-
+    char etat_fils_Buff[5]={'N','N','N','N','N'};
+    char nom_pipe_Pere[32]="\0";
     // la variable pid recoit et retourne les valeurs données par le fork 
 
+    sprintf(nom_pipe_Pere,"%d",getpid());//On recupere le PID du pere
+    printf("\tNom du pipe Pere %d cree -> %s\n",numero,nom_pipe_Pere);        
+
     pid = fork(); // fork un première fois
+
   
     // Si fork() = 0, c'est donc un process fils 
     if (pid == 0) 
@@ -223,14 +228,18 @@ int pere(int numero)
                                 if(etat_fils[i]!=-1)
                                 {
                                     printf("\t ENFANT %d => VIVANT ",i+1);
+                                    etat_fils_Buff[i]='O';
                                 }
                                 else
                                 {
                                     printf("\t ENFANT %d => MORT ",i+1);
+                                    etat_fils_Buff[i]='X';
                                 }
                             }
+                            //Creer un pipe pour envoyer a la mere l'etat des fils (par buffer de char)                            
                             printf("\n\n");
-
+                            //SendBuff(nom_pipe_Pere,etat_fils_Buff);
+                            //SendBuff(nom_pipe_Pere,"XOXOX");
                         }
                     } 
                     wait(NULL);
