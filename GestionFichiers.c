@@ -74,14 +74,16 @@ int main2(void)
         Case = GenNombre(9999);
         AttaquerCase(MonPPID, MonPID, Case, SIGUSR1);
     }
+    return 0;
 }    
 
 int SendSIG2(pid_t PID, int Signal) //Envoi signal [SIG_QUIT, SIGUSR1, SIGUSR2] au PID avec kill()
 {
-    char *NomSignal;
-    if (Signal==3) NomSignal="SIGQUIT";
-    else NomSignal="SIGUSR1";
-    printf("J'envoie %s a %d\n",NomSignal,PID);
+    if (Signal==3) 
+        printf("J'envoie SIGQUIT a %d\n",PID);
+    else
+        printf("J'envoie SIGUSR1 a %d\n",PID);
+    return 0;
 }
 
 
@@ -90,7 +92,7 @@ int AttaquerCase(int MonPID, int MonPPID, int CaseNumber, int Signal) //Signal =
     //int MonPID=1234, MonPPID=7890;
     int PID=0, PPID=0;
     int RetVal=0;
-    char Case[4];
+    char Case[5];
     sprintf(Case,"%4d", CaseNumber);
     //SetPIDnPPIDfromFile(MonPID,MonPPID, "0000");
     if (GetPIDnPPIDfromFile(&PID, &PPID, Case)==-1) 

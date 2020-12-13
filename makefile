@@ -5,16 +5,20 @@
 #Suivi des modifications (du plus récent au plus ancien):
 #2020-12-11 : Creation du fichier 
 
-CC = gcc
-CFLAGS = -c -lm -Wall -g
-LD = gcc
+STB_INCLUDE_PATH = ./extern/stb
+
+CC = g++
+C++ = g++
+CFLAGS = -c -lm -Wall -g 
+C++FLAGS = -c -lm -Wall -g -I$(STB_INCLUDE_PATH) -Isrc
+LD = g++
 LDFLAGS = 
 RM = rm
 RMFLAGS = -rf
 
 .PHONY: clean deepclean
 
-main: GestionFichiers.o number_generator.o signaux.o fork_5_fils.o fork_2_peres.o
+main: GestionFichiers.o number_generator.o signaux.o fork_5_fils.o fork_2_peres.o Damier.o
 	$(LD) $(LDFLAGS) $^ -o $@
 
 GestionFichiers.o: GestionFichiers.c
@@ -31,6 +35,9 @@ fork_2_peres.o: fork_2_peres.c
 
 fork_5_fils.o: fork_5_fils.c 
 	$(CC) $(CFLAGS) $<
+
+Damier.o: Damier.c 
+	$(C++) $(C++FLAGS) $<
 
 clean:
 	$(RM) $(RMFLAGS) *.o

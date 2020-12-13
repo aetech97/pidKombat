@@ -21,3 +21,5 @@ int pere(int numero);
 
 int initPipe(const char * Pipe);
 int destroyPipe(const char * Pipe);
+
+void Dessiner(int PID1, int PID2);

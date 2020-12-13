@@ -11,7 +11,7 @@
 
 int main() 
 { 
-    int pid, pid1, pid2 ; 
+    int pid, pid1; 
     // la variable pid recoit et retourne les valeurs données par le fork
     printf("Starting the program!!\n"); 
 
@@ -43,8 +43,12 @@ int main()
         } 
         else 
         { 
-            sleep(3);
-            printf("mere --> pid = %d\n", getpid());
+            while(1)
+            {
+                sleep(1);
+                printf("mere --> pid = %d\n", getpid());
+                Dessiner(pid, pid1);
+            }
         } 
         wait(NULL);
     }
