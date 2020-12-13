@@ -18,7 +18,7 @@ RMFLAGS = -rf
 
 .PHONY: clean deepclean
 
-main: GestionFichiers.o number_generator.o signaux.o fork_5_fils.o fork_2_peres.o Damier.o
+main: GestionFichiers.o number_generator.o signaux.o fork_5_fils.o fork_2_peres.o Damier.o SupprimerCases.o
 	$(LD) $(LDFLAGS) $^ -o $@
 
 GestionFichiers.o: GestionFichiers.c
@@ -39,6 +39,9 @@ fork_5_fils.o: fork_5_fils.c
 Damier.o: Damier.c 
 	$(C++) $(C++FLAGS) $<
 
+SupprimerCases.o: SupprimerCases.c 
+	$(C++) $(C++FLAGS) $<
+	
 clean:
 	$(RM) $(RMFLAGS) *.o
 
