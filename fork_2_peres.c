@@ -13,6 +13,7 @@ int main()
 { 
     int pid, pid1, pid2 ; 
     // la variable pid recoit et retourne les valeurs données par le fork
+    init_Folders();
     printf("Starting the program!!\n"); 
 
     pid = fork(); // fork un première fois

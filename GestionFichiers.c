@@ -15,6 +15,9 @@ Mois/Année : Décembre 2020
 #include "prototypes.h"
 
 #define FOLDER "Cases/"
+#define FOLDER_PIPES "Pipes/"
+
+struct stat st = {0};
 
 int GetPIDnPPIDfromFile(int *PID, int *PPID, char *FileName) // filename ="FOLDER/0000"
 {
@@ -74,6 +77,7 @@ int main2(void)
         Case = GenNombre(9999);
         AttaquerCase(MonPPID, MonPID, Case, SIGUSR1);
     }
+    return 0;
 }    
 
 int SendSIG2(pid_t PID, int Signal) //Envoi signal [SIG_QUIT, SIGUSR1, SIGUSR2] au PID avec kill()
@@ -116,5 +120,19 @@ int AttaquerCase(int MonPID, int MonPPID, int CaseNumber, int Signal) //Signal =
             printf("La case %s appartient deja au PPID %d\n", Case, MonPPID);
     }
     return 0;
+}
+
+void init_Folders(void)
+{
+    if (stat(FOLDER, &st) == -1) 
+    {
+        mkdir(FOLDER, 0750);
+    }
+    SupprimerCases(FOLDER);
+    if (stat(FOLDER_PIPES, &st) == -1) 
+    {
+        mkdir(FOLDER_PIPES, 0750);
+    }
+    SupprimerCases(FOLDER_PIPES);
 }
 
