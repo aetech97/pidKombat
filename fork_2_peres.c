@@ -13,16 +13,12 @@
 
 int main() 
 { 
-<<<<<<< HEAD
     int pid, pid1, pid2 ; 
     int switch_pipe=0;
     char nom_pipe_Pere1[32]="\0";
     char nom_pipe_Pere2[32]="\0";
     char buff_Pere1[5]={'\0','\0','\0','\0','\0'};
     char buff_Pere2[5]={'\0','\0','\0','\0','\0'};
-=======
-    int pid, pid1; 
->>>>>>> 8ff7fa4706e7e046a445d0cea83509c00a58a911
     // la variable pid recoit et retourne les valeurs données par le fork
     init_Folders();
     printf("Starting the program!!\n"); 
