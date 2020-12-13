@@ -14,13 +14,19 @@ Mois/Année : Décembre 2020
 #include <sys/types.h>    
 #include "prototypes.h"
 
-#define FOLDER "Cases"
+#define FOLDER "Cases/"
 
 int GetPIDnPPIDfromFile(int *PID, int *PPID, char *FileName) // filename ="FOLDER/0000"
 {
     int nb=0;
     int Buf;
-    int Fichier = open(FileName, O_RDONLY); //lecture seule
+    //int Fichier = open(FileName, O_RDONLY); //lecture seule
+    int Fichier = 0;
+    char fic[32]="\0";
+
+    strcat(fic,FOLDER);
+    strcat(fic,FileName);
+    Fichier = open(fic, O_RDONLY);//lecture seule
     if (Fichier>0)
     {
         nb=read(Fichier, &Buf, sizeof(int));
@@ -41,7 +47,14 @@ int GetPIDnPPIDfromFile(int *PID, int *PPID, char *FileName) // filename ="FOLDE
 int SetPIDnPPIDfromFile(int PID, int PPID, char *FileName)
 {
     int nb=0;
-    int Fichier = open(FileName, O_WRONLY|O_CREAT, S_IWUSR|S_IRUSR); //EcritureSeule
+    char fic[32]="\0";
+    //int Fichier = open(FileName, O_WRONLY|O_CREAT, S_IWUSR|S_IRUSR); //EcritureSeule
+    int Fichier = 0;
+
+    strcat(fic,FOLDER);
+    strcat(fic,FileName);
+    Fichier = open(fic, O_WRONLY|O_CREAT, S_IWUSR|S_IRUSR); //EcritureSeule
+
     if (Fichier>0)
     {
         nb=write(Fichier, &PID, sizeof(int));

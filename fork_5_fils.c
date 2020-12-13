@@ -18,7 +18,7 @@ int pere(int numero)
     int nb_fichier[5];
     char nom_pipe[5][32]={"\0","\0","\0","\0","\0"};
     char pipeTab[5][32]={"\0","\0","\0","\0","\0"};
-    int initFils=0;
+    int etat_fils[5]={0,0,0,0,0};
 
     // la variable pid recoit et retourne les valeurs données par le fork 
 
@@ -48,7 +48,7 @@ int pere(int numero)
             //sleep(1);
             //Attendre la reception d'un chiffre aléatoire            
             nb_fichier[0]=ReadNumber(nom_pipe[0]);
-            printf("\tFILS: 1 recoit Nb_Rand => %d De => Pere: %d\n", nb_fichier[0],numero);
+            //printf("\tFILS: 1 recoit Nb_Rand => %d De => Pere: %d\n", nb_fichier[0],numero);
             if(nb_fichier[0]>=0)
             {
                 AttaquerCase(getpid(), getppid(), nb_fichier[0], SIGUSR1);
@@ -83,7 +83,7 @@ int pere(int numero)
             while (1)
             {                
                 nb_fichier[1]=ReadNumber(nom_pipe[1]);
-                printf("\tFILS: 2 recoit Nb_Rand => %d De => Pere: %d\n", nb_fichier[1],numero);
+                //printf("\tFILS: 2 recoit Nb_Rand => %d De => Pere: %d\n", nb_fichier[1],numero);
                 if(nb_fichier[1]>=0)
                 {
                     AttaquerCase(getpid(), getppid(), nb_fichier[1], SIGUSR1);
@@ -115,7 +115,7 @@ int pere(int numero)
                 while (1)
                 {                    
                     nb_fichier[2]=ReadNumber(nom_pipe[2]);
-                    printf("\tFILS: 3 recoit Nb_Rand => %d De => Pere: %d\n", nb_fichier[2],numero);
+                    //printf("\tFILS: 3 recoit Nb_Rand => %d De => Pere: %d\n", nb_fichier[2],numero);
                     if(nb_fichier[2]>=0)
                     {
                         AttaquerCase(getpid(), getppid(), nb_fichier[2], SIGUSR1);
@@ -148,7 +148,7 @@ int pere(int numero)
                     while (1)
                     {
                         nb_fichier[3]=ReadNumber(nom_pipe[3]);
-                        printf("\tFILS: 4 recoit Nb_Rand => %d De => Pere: %d\n", nb_fichier[3],numero);
+                        //printf("\tFILS: 4 recoit Nb_Rand => %d De => Pere: %d\n", nb_fichier[3],numero);
                         if(nb_fichier[3]>=0)
                         {
                             AttaquerCase(getpid(), getppid(), nb_fichier[3], SIGUSR1);
@@ -180,7 +180,7 @@ int pere(int numero)
                         while (1)
                         {
                             nb_fichier[4]=ReadNumber(nom_pipe[4]);
-                            printf("\tFILS: 5 recoit Nb_Rand => %d De => Pere: %d\n", nb_fichier[4],numero);
+                            //printf("\tFILS: 5 recoit Nb_Rand => %d De => Pere: %d\n", nb_fichier[4],numero);
                             if(nb_fichier[4]>=0)
                             {
                                 AttaquerCase(getpid(), getppid(), nb_fichier[4], SIGUSR1);
@@ -212,11 +212,25 @@ int pere(int numero)
                             {
                                 while(rand_nb==GenNombre(NB_MAX));
                                 rand_nb=GenNombre(NB_MAX);
-                                printf("Pere : %d ENVOIE %d A => Fils : %s",numero,rand_nb,pipeTab[i]);
-                                SendNumber(pipeTab[i], rand_nb);
+                                //printf("Pere : %d ENVOIE %d A => Fils : %s",numero,rand_nb,pipeTab[i]);
+                                etat_fils[i]=SendNumber(pipeTab[i], rand_nb);
                                 sleep(1);
                             }
-                            sleep(5);
+                            sleep(1);
+                            printf("\n\t********************ETAT des ENFANTS - PERE %d:********************\n\n",numero);
+                            for(int i=0;i<5;i++)
+                            {
+                                if(etat_fils[i]!=-1)
+                                {
+                                    printf("\t ENFANT %d => VIVANT ",i+1);
+                                }
+                                else
+                                {
+                                    printf("\t ENFANT %d => MORT ",i+1);
+                                }
+                            }
+                            printf("\n\n");
+
                         }
                     } 
                     wait(NULL);

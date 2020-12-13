@@ -13,11 +13,14 @@
 #include<stdio.h>
 #include <sys/stat.h>
 #include <errno.h>
+#include <string.h>
 
 #include"prototypes.h"
 
 #define UNITARY_TEST 0  // =>1 to launch main test  ;   =>0 to deactivate main code
 struct timespec nanos;
+
+#define FOLDER_PIPES "Pipes/"
 
 //Team 1 Pipes
 const char *E1_PIPE_1= "pipe1";
@@ -111,15 +114,25 @@ int GenNombre(int NbMax)
 int initPipe(const char * Pipe)
 {
     int stat=0;
-    unlink(Pipe);
-    stat=mkfifo(Pipe,0750);
+    char fic_Pipe[32]="\0";
+
+    strcat(fic_Pipe,FOLDER_PIPES);
+    strcat(fic_Pipe,Pipe);
+
+    unlink(fic_Pipe);
+    stat=mkfifo(fic_Pipe,0750);
     return stat;
 }
 
 int destroyPipe(const char * Pipe)
 {
     int stat=0;
-    stat = unlink(Pipe);
+    char fic_Pipe[32]="\0";
+
+    strcat(fic_Pipe,FOLDER_PIPES);
+    strcat(fic_Pipe,Pipe);
+
+    stat = unlink(fic_Pipe);
     return stat;
 }
 
@@ -127,19 +140,26 @@ int SendNumber(const char *Pipe, int Nombre)
 {
     int dp=0;
     int state=0;
+    char fic_Pipe[32]="\0";
 
-    dp=open(Pipe,O_WRONLY | O_NONBLOCK);           // Ouverture du pipe    
+    strcat(fic_Pipe,FOLDER_PIPES);
+    strcat(fic_Pipe,Pipe);
+
+    dp=open(fic_Pipe,O_WRONLY | O_NONBLOCK);           // Ouverture du pipe    
     state=write(dp,&Nombre,sizeof(int));      // Ecriture dans le pipe
     //close(dp);                          // Fermeture du pipe en écriture 
     if(state<=0)
     {
-        printf("ERROR Ecriture PIPE => %s\n",Pipe);
-        printf("\tSTATE VALUE => %d\n",state);
+        //Si le pipe n'a pas été ouvert précedemment, le fermer!
         if(errno==ENXIO)
         {
+            printf("ERROR Ecriture PIPE => %s\n",Pipe);
+            printf("\tSTATE VALUE => %d\n",state);
             printf("\t***CLOSING PIPE*** => %s\n",Pipe);
             close(dp);
-        } 
+        }
+        //Si state<=0, rien n'a été écrit, alors le child est compromis!!
+        return state;
     }
     return state;                       
 }
@@ -149,8 +169,12 @@ int ReadNumber(const char *Pipe)
     int dp=0;
     int Nombre=0;
     int state=0;
+    char fic_Pipe[32]="\0";
 
-    dp=open(Pipe,O_RDONLY);          // Ouverture du pipe 
+    strcat(fic_Pipe,FOLDER_PIPES);
+    strcat(fic_Pipe,Pipe);
+
+    dp=open(fic_Pipe,O_RDONLY);          // Ouverture du pipe 
 	state=read(dp,&Nombre,sizeof(int));	    // Lecture dans le pipe
     close(dp);                          // Fermeture du pipe en écriture 
     if(state<=0)
