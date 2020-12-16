@@ -222,20 +222,21 @@ int pere(int numero)
                                 sleep(1);
                             }
                             sleep(1);
-                            printf("\n\t********************ETAT des ENFANTS - PERE %d (PID=%d):********************\n\n",numero, getpid());
+                            printf("\n\t********************ETAT du Commando - SUPERPROCESSUS %d (PID=%d):********************\n\n\n",numero, getpid());
                             for(int i=0;i<5;i++)
                             {
                                 if(etat_fils[i]!=-1)
                                 {
-                                    printf("\t ENFANT %d => VIVANT ",i+1);
+                                    printf("\t PROCESSUS %d => VIVANT ",i+1);
                                     etat_fils_Buff[i]='O';
                                 }
                                 else
                                 {
-                                    printf("\t ENFANT %d => MORT ",i+1);
+                                    printf("\t PROCESSUS %d => MORT ",i+1);
                                     etat_fils_Buff[i]='X';
                                 }
                             }
+                            printf("\n\n\n\t**************************************************************************************\n");
                             //Creer un pipe pour envoyer a la mere l'etat des fils (par buffer de char)                            
                             printf("\n\n");
                             //SendBuff(nom_pipe_Pere,etat_fils_Buff);

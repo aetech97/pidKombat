@@ -21,7 +21,15 @@ int main()
     char buff_Pere2[5]={'\0','\0','\0','\0','\0'};
     // la variable pid recoit et retourne les valeurs données par le fork
     init_Folders();
-    printf("Starting the program!!\n"); 
+    printf("\n========================================\n"); 
+    printf("+\t\t\t\t\t+\n");
+    printf("+\t\t\t\t\t+\n");
+    printf("+\t\t\t\t\t+\n");
+    printf("+\tStarting the KOMBAT!!\t\t+\n"); 
+    printf("+\t\t\t\t\t+\n");
+    printf("+\t\t\t\t\t+\n");
+    printf("+\t\t\t\t\t+\n");
+    printf("\n========================================\n");
 
     pid = fork(); // fork un première fois
   

@@ -11,7 +11,7 @@ Mois/Année : Décembre 2020
 #include <sys/wait.h>
 #include <sys/stat.h>
 #include <fcntl.h>
-#include <sys/types.h>    
+#include <sys/types.h> 
 #include "prototypes.h"
 
 #define FOLDER "Cases/"
@@ -83,10 +83,10 @@ int main2(void)
 
 int SendSIG2(pid_t PID, int Signal) //Envoi signal [SIG_QUIT, SIGUSR1, SIGUSR2] au PID avec kill()
 {
-    if (Signal==3) 
-        printf("J'envoie SIGQUIT a %d\n",PID);
-    else
-        printf("J'envoie SIGUSR1 a %d\n",PID);
+//    if (Signal==3) 
+        //printf("J'envoie SIGQUIT a %d\n",PID);
+//    else
+        //printf("J'envoie SIGUSR1 a %d\n",PID);
     return 0;
 }
 
@@ -101,15 +101,21 @@ int AttaquerCase(int MonPID, int MonPPID, int CaseNumber, int Signal) //Signal =
     //SetPIDnPPIDfromFile(MonPID,MonPPID, "0000");
     if (GetPIDnPPIDfromFile(&PID, &PPID, Case)==-1) 
     {
-        printf("Le PID %d occupe la case %s\n",MonPID, Case);
+        printf("\nLe Processus %d(ID) occupe la case %s\n",MonPID, Case);
         RetVal=SetPIDnPPIDfromFile(MonPID, MonPPID, Case);
         if (RetVal!=2) return 1;
     }    
     else
     {
         if (PPID!=MonPPID)
-        {
-            printf("Le PID %d vole la case %s au PID %d\n",MonPID, Case,PID);
+        {            
+            printf("\nxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\n"); 
+            printf("+\t\t\t\t\t\t\t\t+\n");
+            printf("+\t\t\t\t\t\t\t\t+");
+            printf("\n +++ Le Processus %d vole la case %s au Processus %d +++\n",MonPID, Case,PID); 
+            printf("+\t\t\t\t\t\t\t\t+\n");
+            printf("+\t\t\t\t\t\t\t\t+");
+            printf("\nxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\n");
             //kill adversaire (PID)
             SendSIG(PID, SIGQUIT); //Je tue le fils
             //Send SIGUSR1 PPID
@@ -119,7 +125,7 @@ int AttaquerCase(int MonPID, int MonPPID, int CaseNumber, int Signal) //Signal =
             if (RetVal!=2) return 1;
         }
         else
-            printf("La case %s appartient deja au PPID %d\n", Case, MonPPID);
+            printf("\n\t***La case %s appartient deja au SuperProcessus %d(ID)***\n", Case, MonPPID);
     }
     return 0;
 }

@@ -1,0 +1,2 @@
+#launch the program
+./main
