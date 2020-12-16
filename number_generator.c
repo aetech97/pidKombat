@@ -2,6 +2,10 @@
     NUMBER GENERATOR
     Written by: Hector SILVA DIAZ
 
+    This file includes:
+        ->Random number generation
+        ->Pipe Management for inter-process communication
+
 */
 
 #include<sys/types.h>
