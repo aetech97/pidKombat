@@ -15,6 +15,7 @@ int pere(int numero)
 { 
     int pid, pid1, pid2, pid3, pid4;
     int rand_nb;
+    int DeathCount=0;
     int nb_fichier[5];
     char nom_pipe[5][32]={"\0","\0","\0","\0","\0"};
     char pipeTab[5][32]={"\0","\0","\0","\0","\0"};
@@ -223,6 +224,7 @@ int pere(int numero)
                             }
                             sleep(1);
                             printf("\n\t********************ETAT du Commando - SUPERPROCESSUS %d (PID=%d):********************\n\n\n",numero, getpid());
+                            DeathCount=0;
                             for(int i=0;i<5;i++)
                             {
                                 if(etat_fils[i]!=-1)
@@ -233,14 +235,16 @@ int pere(int numero)
                                 else
                                 {
                                     printf("\t PROCESSUS %d => MORT ",i+1);
+                                    DeathCount++;
                                     etat_fils_Buff[i]='X';
                                 }
                             }
                             printf("\n\n\n\t**************************************************************************************\n");
                             //Creer un pipe pour envoyer a la mere l'etat des fils (par buffer de char)                            
-                            printf("\n\n");
+                            printf("\nNB MORTS : %d\n", DeathCount);
                             //SendBuff(nom_pipe_Pere,etat_fils_Buff);
                             //SendBuff(nom_pipe_Pere,"XOXOX");
+                            if (DeathCount>=5) exit(0);
                         }
                     } 
                     wait(NULL);

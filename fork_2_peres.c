@@ -8,12 +8,50 @@
 #include <unistd.h> 
 #include <sys/wait.h>
 #include "prototypes.h"
+#include <sys/resource.h>
 
 #define MODE_AFFICHAGE_MERE 0
+
+int getAllChildProcess(pid_t ppid)
+{
+   int pid=0;
+   char *buff = NULL;
+   size_t len = 255;
+   char command[256] = {0};
+
+   sprintf(command,"ps -ef|awk '$3==%u {print $2}'",ppid);
+   FILE *fp = (FILE*)popen(command,"r");
+   while(getline(&buff,&len,fp) >= 0)
+   {
+     printf("%s\n",buff);
+   }
+    pid=atoi(buff);
+   free(buff);
+   fclose(fp);
+   return pid;
+}
+
+void handler(int sig)
+{
+  pid_t pid;
+  int pid2;
+    signal(SIGCHLD, SIG_IGN);
+  pid = wait(NULL);
+    
+  printf("FATHER Pid %d exited. (MOTHER PID=%d)\n", pid,getpid());
+  if (pid == getpid()+1) pid2=pid+1;
+  else pid2=pid-1;
+  //pid2=getAllChildProcess(getpid());
+  //printf("2nd FATHER PID : %d WON THE PARTY !!\n",pid2);
+  SendSIG(pid2,SIGQUIT);//On tue le second pere
+    printf("2nd FATHER PID : %d WON THE PARTY !!\n",pid2);
+  exit(0);
+}
 
 int main() 
 { 
     int pid, pid1, pid2 ; 
+    pid_t PERES[2];
     int switch_pipe=0;
     char nom_pipe_Pere1[32]="\0";
     char nom_pipe_Pere2[32]="\0";
@@ -59,6 +97,7 @@ int main()
         } 
         else 
         { 
+            signal(SIGCHLD, handler);
             printf("mere --> pid = %d\n", getpid());
 
             sprintf(nom_pipe_Pere1,"%d",pid);//On recupere le PID du pere 1 
@@ -81,6 +120,9 @@ int main()
             
             while(1)
             {
+     
+               
+
 
 #if MODE_AFFICHAGE_MERE                
 
