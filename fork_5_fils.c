@@ -244,7 +244,8 @@ int pere(int numero)
                             printf("\nNB MORTS : %d\n", DeathCount);
                             //SendBuff(nom_pipe_Pere,etat_fils_Buff);
                             //SendBuff(nom_pipe_Pere,"XOXOX");
-                            if (DeathCount>=5) exit(0);
+                            if (DeathCount>=5) exit(0); // Si tous mes fils sont Mort, Je me suicide
+
                         }
                     } 
                     wait(NULL);
